@@ -19,13 +19,13 @@ st.set_page_config(
 @st.cache_data
 def startup():
     #Récupération du modèle et du seuil
-    best_model = pickle.load(open('./BEST_MODEL.sav', 'rb'))
-    f = open("./seuil.txt","r")
+    best_model = pickle.load(open('BEST_MODEL.sav', 'rb'))
+    f = open("seuil.txt","r")
     seuil = float(f.read())
     f.close()
     
     #Récupération des données
-    df_id = pd.read_csv('./test_id.csv')
+    df_id = pd.read_csv('test_id.csv')
     df = df_id.drop(['SK_ID_CURR'], axis=1)
     
     explainer = shap.Explainer(best_model)
