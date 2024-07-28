@@ -61,20 +61,22 @@ bivariate_feature2 = st.sidebar.selectbox('Bivariate variable 2 :', bivariate_op
 
 inputs = {"idx": id}
 
-
-#url = "http://127.0.0.1:8000/predict"
-#request = requests.post(url, data = json.dumps(inputs))
-#req = request.json()
-#proba_api = req[0]['proba']
-#proba_api_inv = abs(proba_api - 1)
-#rep_api = req[0]['rep']
-
 @st.cache_data()
 def predict(id):
-    proba_api = df_id.iloc[[id]]['Score'].values[0]
-    #proba_api = best_model.predict_proba(df.values[id].reshape(1,-1))[:,1][0]
-    rep_api = "Rejetée" if proba_api > seuil else 'Acceptée'
+    url = "https://predaaillaud.azurewebsites.net/predict"
+    request = requests.post(url, data = json.dumps(inputs))
+    req = request.json()
+    proba_api = req[0]['proba']
+    proba_api_inv = abs(proba_api - 1)
+    rep_api = req[0]['rep']
     return proba_api, rep_api
+
+#@st.cache_data()
+#def predict(id):
+#    proba_api = df_id.iloc[[id]]['Score'].values[0]
+#    #proba_api = best_model.predict_proba(df.values[id].reshape(1,-1))[:,1][0]
+#    rep_api = "Rejetée" if proba_api > seuil else 'Acceptée'
+#    return proba_api, rep_api
 
 proba_api, rep_api = predict(id)
 proba_api_inv = abs(proba_api - 1)
